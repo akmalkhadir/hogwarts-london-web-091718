@@ -1,13 +1,13 @@
 import React from 'react'
-import { Card, Button } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 const Hog = (props) => {
   return (
-      <Card 
-        onClick = { () => props.handleClick(props.hog) }
-        image='https://media.giphy.com/media/a50eFx1uBCEKs/giphy.gif'
-        header={props.hog.name}
-      />
+    <Card
+      onClick={() => props.handleClick(props.hog)}
+      image='https://media.giphy.com/media/a50eFx1uBCEKs/giphy.gif'
+      header={props.hog.name}
+    />
   )
 }
 
