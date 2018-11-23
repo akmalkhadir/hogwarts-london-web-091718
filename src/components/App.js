@@ -15,7 +15,8 @@ class App extends Component {
       selectedHog: null,
       weightSort: false,
       nameSort: false,
-      greasedFilter: false
+      greasedFilter: false,
+      hogsToRender: []
     }
   }
 
@@ -32,7 +33,32 @@ class App extends Component {
 
   filterByGreased = () => {
     const filterHogs = [...this.state.hogs].filter(hog => hog.greased === true)
-    this.state.filteredHogs.length < 1 ? this.setState({ filteredHogs: filterHogs }) : this.setState({ filteredHogs: [] })
+    this.state.filteredHogs.length < 1 ? this.setState({ filteredHogs: filterHogs, greasedFilter: true }) : this.setState({ filteredHogs: [], greasedFilter: false })
+  }
+
+  sortByname = () => {
+    this.state.nameSort ? this.setState({nameSort:false}) : this.setState({nameSort: true})
+    if (this.state.nameSort) {
+      this.setState({ nameSort: false })
+    } else {
+      this.setState({ nameSort: true })
+      if (this.state.greasedFilter === false) {
+        const sortedHogsAll = [...this.state.hogs].sort((a, b) => a.name.localeCompare(b.name))
+        return sortedHogsAll
+      } else {
+        const sortedHogsFiltered = [...this.state.filteredHogs].sort((a, b) => a.name.localeCompare(b.name))
+        return sortedHogsFiltered
+      }
+    }
+
+
+    if (this.state.greasedFilter === false) {
+     const sortedHogsAll = [...this.state.hogs].sort((a, b) => a.name.localeCompare(b.name))
+      return sortedHogsAll
+    } else {
+      const sortedHogsFiltered = [...this.state.filteredHogs].sort((a, b) => a.name.localeCompare(b.name))
+      return sortedHogsFiltered
+    }
   }
 
   deselectHog = () => {
@@ -47,6 +73,12 @@ class App extends Component {
     })
   }
 
+  filterHogs = (hogs) => hogs.filter(hog => this.state.greasedFilter ? hog.greased : true )
+
+  sortHog = (hogs) => {
+
+  }
+
   render() {
     return (
       <div className="App">
@@ -54,7 +86,7 @@ class App extends Component {
           <Filters handleGrease={this.handleGrease}/>
           {this.state.selectedHog ?
               <HogDetails deselectHog = {this.deselectHog} handleClick = {() => console.log("wohoo")} selectedHog={this.state.selectedHog}/> :
-              <HogList selectHog={this.selectHog} hogs={hogs} filteredHogs={this.state.filteredHogs}/>
+              <HogList selectHog={this.selectHog} hogs={this.sortHogs(this.filterHogs(hogs))} filteredHogs={this.state.filteredHogs}/>
           }
       </div>
     )
