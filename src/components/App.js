@@ -11,6 +11,7 @@ class App extends Component {
     super()
     this.state = {
       hogs: [],
+      filteredHogs: [],
       selectedHog: null,
       weightSort: false,
       nameSort: false,
@@ -24,7 +25,15 @@ class App extends Component {
     })
   }
   
+  handleGrease = () => {
+    this.filterByGreased()
+  }
+  
 
+  filterByGreased = () => {
+    const filterHogs = [...this.state.hogs].filter(hog => hog.greased === true)
+    this.state.filteredHogs.length < 1 ? this.setState({ filteredHogs: filterHogs }) : this.setState({ filteredHogs: [] })
+  }
 
   deselectHog = () => {
     this.setState({
@@ -42,10 +51,10 @@ class App extends Component {
     return (
       <div className="App">
           <Nav />
-          <Filters />
+          <Filters handleGrease={this.handleGrease}/>
           {this.state.selectedHog ?
               <HogDetails deselectHog = {this.deselectHog} handleClick = {() => console.log("wohoo")} selectedHog={this.state.selectedHog}/> :
-              <HogList selectHog={this.selectHog} hogs={hogs} />
+              <HogList selectHog={this.selectHog} hogs={hogs} filteredHogs={this.state.filteredHogs}/>
           }
       </div>
     )

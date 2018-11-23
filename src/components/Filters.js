@@ -5,7 +5,7 @@ const Filters = (props) => {
   return (
     <Menu>
       <MenuItem>
-        <Checkbox value='greased' label='Greased Hogs?' />
+        <Checkbox onChange={props.handleGrease} value='greased' label='Greased Hogs?' />
       </MenuItem>
       <MenuItem >
         <Checkbox toggle value='name' label='Sort by Name' />

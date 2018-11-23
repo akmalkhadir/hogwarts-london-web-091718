@@ -2,24 +2,21 @@ import React, { Component } from 'react'
 import Hog from './Hog'
 
 class HogList extends Component {
-
-    state = {
-        hogs: this.props.hogs
-    }
-
   render () {
-    return(
-    <div>
-      {
-        this.state.hogs.map(hog => 
-          <Hog
-          handleClick={this.props.selectHog}
-          key={hog.name}
-          hog={hog} />
+    const hogsToRender = this.props.filteredHogs.length > 0 ? this.props.filteredHogs : this.props.hogs
+    return (
+      <div>
+        {
+          hogsToRender.map(hog =>
+            <Hog
+              handleClick={this.props.selectHog}
+              key={hog.name}
+              hog={hog} />
           )
-      }
-    </div>
-    )}
+        }
+      </div>
+    )
+  }
 }
 
 export default HogList
